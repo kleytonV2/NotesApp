@@ -32,14 +32,50 @@ const App = () => {
       content: "content 4"
     },
 ]);
+
+const [title,setTitle] = useState("");
+const [content,setContent] = useState("");
+
+const handleAddNote = (
+  event: React.FormEvent
+) => {
+  event.preventDefault();
+
+  const newNote: Note = {
+    id: notes.length + 1,
+    title: title,
+    content: content
+  };
+
+  setNotes([newNote,...notes]);
+  setTitle("");
+  setContent("");
+
+};
+
+const [selectedNote,setSelectedNote] = 
+useState<Note | null>(null);
+
+const handleNoteClick = (note:Note)  =>{
+  setSelectedNote(note);
+  setTitle(note.title);
+  setContent(note.content);
+}
+
   return (
     <div className="app-container">
-      <form className="note-form">
+      <form className="note-form" onSubmit={(event)=>handleSubmit(event)}>
         <input
+          value={title}
+          onChange={(event) =>
+            setTitle(event.target.value)}
           placeholder="title"
           required
           ></input>
         <textarea
+          value={content}
+          onChange={(event) =>
+          setContent(event.target.value)}
           placeholder="Content"
           rows={10}
           required
@@ -51,7 +87,8 @@ const App = () => {
 
       <div className="notes-grid">
         {notes.map((note) => (
-          <div className="note-item">
+          <div className="note-item"
+          onClick={()=>handleNoteClick(note)}>
             <div className="notes-header">
               <button>x</button>
             </div>
