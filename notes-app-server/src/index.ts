@@ -70,12 +70,6 @@ app.put("/api/notes/:id",async (req, res)=>{
 app.delete("/api/notes/:id",async (req, res)=>{
     const {title,content} = req.body;
     const id = parseInt(req.params.id);
-
-    if (!title||!content){
-        return res
-        .status(400)
-        .send("title and content fields required");
-    }
     
     if(!id||isNaN(id)){
         return res
